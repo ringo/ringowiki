@@ -3,7 +3,7 @@
 <% subskin content %>
 <form method="POST" action="<% page.name | toUrl %>edit">
 <div><input class="title" name="name" value="<% page.name | escapeForm %>"/></div>
-<div><textarea name="body"><% page.body | escapeForm %></textarea></div>
+<div><textarea name="body" rows="30" ><% page.body | escapeForm %></textarea></div>
 
 <div>
     <input name="save" value="Save" type="submit"/>
