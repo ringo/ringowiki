@@ -9,7 +9,9 @@ exports.index = function(req, name, action) {
         if (action == 'edit') {
             return updatePage(page, req);
         } else {
-            return new SkinnedResponse('skins/page.html', { page: page });
+            var skin = req.path == '/' ?
+                       'skins/index.html' : 'skins/page.html';
+            return new SkinnedResponse(skin, { page: page });
         }
     } else {
         return createPage(name, req);

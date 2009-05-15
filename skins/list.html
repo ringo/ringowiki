@@ -4,5 +4,9 @@
 <h1>All Pages</h1>        
 <% for page in <% pages %> render listitem %>
 
+<p><a href="/">go to home page</a></p>
+        
 <% subskin listitem %>
-<div><a href="<% page.name | toUrl %>"><% page.name %></a></div>        
+<div>
+    <a href="<% page.name | toUrl %>"><% page.name %></a>
+</div>

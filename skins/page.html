@@ -5,4 +5,8 @@
 <h1><% page.name %></h1>
 <div><% page.body | markdown %></div>
 
-<p><a href="<% page.name | toUrl %>edit">edit this page</a> | <a href="/list">list all pages</a></p>        
+<p>
+    <a href="<% page.name | toUrl %>edit">edit this page</a> |
+    <a href="/list">list all pages</a> |
+    <a href="/">go to home page</a>
+</p>
