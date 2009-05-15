@@ -1,0 +1,8 @@
+<% extends base.html %>
+
+<% subskin content %>
+
+<h1><% page.name %></h1>
+<div><% page.body | markdown %></div>
+
+<p><a href="<% page.name | toUrl %>edit">edit this page</a> | <a href="/list">list all pages</a></p>        

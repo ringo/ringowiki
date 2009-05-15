@@ -1,0 +1,10 @@
+<% extends base.html %>
+
+<% subskin content %>
+<form method="POST" action="<% page.name | toUrl %>edit">
+<div><input class="title" name="name" value="<% page.name | escapeForm %>"/>
+<div><textarea name="body"><% page.body | escapeForm %></textarea></div>
+<div><input name="save" value="Save" type="submit"/>
+     <a href="<% page.name | toUrl %>">cancel</a> | 
+     <a href="http://www.kreatives-chaos.com/markdown_help.html">Markdown help</a></div>
+</form>
