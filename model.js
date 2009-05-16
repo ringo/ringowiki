@@ -1,4 +1,8 @@
-include('helma/storage/filestore');
+try {
+    include('helma/storage/googlestore');
+} catch (error) {
+    include('helma/storage/filestore');
+}
 
 export('Page');
 
