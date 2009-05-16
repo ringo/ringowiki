@@ -16,10 +16,15 @@ function markdown_filter(content) {
     return markdown.process(content);
 };
 
-function toUrl_filter(name) {
-    return toUrl(name);
+function toUrl_filter(name, tag) {
+    return toUrl(name, tag.parameters[0]);
 }
 
-function toUrl(name) {
-    return "/" + encodeURI(name) + "/";
+function toUrl(name, action) {
+    if (name.toLowerCase() == "home" && !action) {
+        return "/";
+    } else {
+        action = action || "";
+        return "/" + encodeURI(name) + "/"  + action;
+    }
 }

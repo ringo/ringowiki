@@ -3,7 +3,7 @@ include('model');
 include('helpers');
 
 exports.index = function(req, name, action) {
-    name = name || 'index';
+    name = name || 'home';
     var page = Page.byName(name);
     if (page) {
         if (action == 'edit') {

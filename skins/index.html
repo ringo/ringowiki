@@ -2,16 +2,9 @@
 
 <% subskin content %>
 
-<h1>Welcome to wiki-ng</h1>
-
-<p class="intro">This is a minimal wiki application running on 
-<a href="http://dev.helma.org/ng/">Helma NG</a>. You can find the
-source code at <a href="http://github.com/hns/wiki-ng/tree/master">github.com</a>.
-Feel free to look around and edit or create any pages you like.</p>
-
 <div><% page.body | markdown %></div>
 
 <p>
-    <a href="<% page.name | toUrl %>edit">edit this page</a> |
+    <a href="<% page.name | toUrl edit %>">edit this page</a> |
     <a href="/list">list all pages</a>
 </p>
