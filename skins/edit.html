@@ -1,7 +1,7 @@
 <% extends base.html %>
 
 <% subskin content %>
-<form method="POST" action="<% page.name | toUrl %>edit">
+<form method="POST" action="<% page.name | toUrl edit %>">
 <div><input class="title" name="name" value="<% page.name | escapeForm %>"/></div>
 <div><textarea name="body" rows="30" ><% page.body | escapeForm %></textarea></div>
 
