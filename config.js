@@ -8,7 +8,8 @@ exports.urls = [
 ];
 
 exports.middleware = [
-    'helma/logging',
+    'helma/middleware/responselog',
+    'helma/middleware/etag'
 ];
 
 exports.macros = [
