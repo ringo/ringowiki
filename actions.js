@@ -33,7 +33,8 @@ function updatePage(page, req) {
 
 function createPage(name, req) {
     if (req.isPost && req.params.save) {
-        page = new Page(req.params);
+        page = new Page();
+        page.updateFrom(req.params);
         page.save();
         return new RedirectResponse(toUrl(page.name));
     }

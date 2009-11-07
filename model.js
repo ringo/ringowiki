@@ -1,8 +1,7 @@
-include('helma/storage/filestore');
-
 export('Page');
+module.shared = true;
 
-Page = new Storable('Page');
+var Page = require('config').store.defineClass('Page');
 
 Page.byName = function(name) {
     name = name.toLowerCase();
