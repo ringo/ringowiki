@@ -3,7 +3,7 @@ exports.httpConfig = {
 };
 
 exports.urls = [
-    [ '/([^/]*)/([^/]*)', 'actions' ],
+    [ '/([^/]*)/edit', 'actions', 'edit' ],
     [ '/', 'actions' ]
 ];
 
