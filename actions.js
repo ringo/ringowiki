@@ -8,6 +8,7 @@ exports.index = function(req, name, action) {
     if (page) {
         var skin = req.path == '/' ?
             'skins/index.html' : 'skins/page.html';
+        page.body = page.revisions[page.revisions.length - 1].body;
         return new SkinnedResponse(skin, { page: page });
     } else {
         return createPage(name, req);
@@ -29,6 +30,7 @@ function updatePage(page, req) {
         page.save();
         return new RedirectResponse(toUrl(page.name));
     }
+    page.body = page.revisions[page.revisions.length - 1].body;
     return new SkinnedResponse('skins/edit.html', {page: page });
 }
 
