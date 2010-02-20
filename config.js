@@ -7,20 +7,20 @@ exports.urls = [
     [ '/', 'actions' ]
 ];
 
-exports.app = 'helma/webapp';
+exports.app = 'ringo/webapp';
 
 exports.middleware = [
-    'helma/middleware/etag',
-    'helma/middleware/responselog'
+    'ringo/middleware/etag',
+    'ringo/middleware/responselog'
 ];
 
-var Store = require('helma/storage/filestore').Store;
+var Store = require('ringo/storage/filestore').Store;
 exports.store = new Store('db');
 
 exports.macros = [
     'helpers',
-    'helma/skin/macros',
-    'helma/skin/filters'
+    'ringo/skin/macros',
+    'ringo/skin/filters'
 ];
 
 exports.charset = 'UTF-8';

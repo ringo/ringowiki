@@ -1,7 +1,7 @@
-This is a minimal wiki demo app for Helma NG. 
-To run it launch helma with the main script:
+This is a minimal wiki demo app for RingoJS. 
+To run it launch ringo with the main script:
 
-  helma main.js
+  ringo main.js
 
 Then point your browser to this URL:
 

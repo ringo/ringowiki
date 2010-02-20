@@ -1,4 +1,4 @@
-include('helma/webapp/response');
+include('ringo/webapp/response');
 include('model');
 include('helpers');
 

@@ -1,4 +1,4 @@
-include('helma/markdown');
+include('ringo/markdown');
 require('core/string');
 
 export('markdown_filter', 'toUrl_filter', 'toUrl');
