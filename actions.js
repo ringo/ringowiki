@@ -30,7 +30,7 @@ function updatePage(page, req) {
         page.save();
         return new RedirectResponse(toUrl(page.name));
     }
-    page.body = page.revisions[0];
+    page.body = req.params.body || page.revisions[0];
     return new SkinnedResponse('skins/edit.html', {page: page});
 }
 

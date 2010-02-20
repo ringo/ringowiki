@@ -5,9 +5,13 @@
 <div><input class="title" name="name" value="<% page.name | escapeForm %>"/></div>
 <div><textarea name="body" rows="30" ><% page.body | escapeForm %></textarea></div>
 
-<div>
+<div style="width: 90%;">
+    Version <% page.revisions.length %> <% for revision in <% page.revisions %> render revisionLink %><br/>
     <input name="save" value="Save" type="submit"/>
-     <a href="javascript:history.back()">cancel</a> |
-     <a href="http://www.kreatives-chaos.com/markdown_help.html">markdown help</a>
+    <a href="/<% page.name %>">cancel</a> |
+    <a href="http://www.kreatives-chaos.com/markdown_help.html">markdown help</a>
 </div>
 </form>
+
+<% subskin revisionLink %>
+&larr; <a href="?body=<% revision | escapeUrl %>"><% revision | truncate limit="10" %></a>
