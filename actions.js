@@ -21,7 +21,7 @@ exports.edit = function(req, name) {
 };
 
 exports.list = function(req) {
-    return SkinnedResponse('skins/list.html', {pages: Page.all()});
+    return new SkinnedResponse('skins/list.html', {pages: Page.all()});
 }
 
 function updatePage(page, req) {

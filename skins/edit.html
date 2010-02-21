@@ -8,7 +8,7 @@
 <div style="width: 90%;">
     Version <% page.revisions.length %> <% for revision in <% page.revisions %> render revisionLink %><br/>
     <input name="save" value="Save" type="submit"/>
-    <a href="/<% page.name %>">cancel</a> |
+    <a href="<% page.name | toUrl %>">cancel</a> |
     <a href="http://www.kreatives-chaos.com/markdown_help.html">markdown help</a>
 </div>
 </form>
