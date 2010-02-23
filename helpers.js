@@ -11,6 +11,13 @@ function markdown_filter(content) {
                         "link to wiki page"];
             }
             return null;
+        },
+        openTag: function(tag, buffer) {
+            buffer.append('<').append(tag);
+            if (tag == "pre") {
+                buffer.append(' class="sh_javascript"');
+            }
+            buffer.append('>');
         }
     });
     return markdown.process(content);

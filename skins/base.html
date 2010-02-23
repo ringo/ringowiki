@@ -4,9 +4,13 @@
 <head>
 <title>wiki-ng<% page.name | prefix " - " %></title>
 <link rel="stylesheet" href="/static/style.css" />
+<link rel="stylesheet" href="/static/sh_hns.min.css" />
+<script type="text/javascript" src="/static/sh_main.min.js"></script>
+<script type="text/javascript" src="/static/sh_javascript.min.js"></script>
 <% render 'head' %>
 </head>
-<body>
+
+<body onload="sh_highlightDocument();">
 <% render content %>
 </body>
 </html>
