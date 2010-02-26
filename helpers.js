@@ -21,7 +21,7 @@ function markdown_filter(content) {
         }
     });
     return markdown.process(content);
-};
+}
 
 function toUrl_filter(name, tag) {
     return toUrl(name, tag.parameters[0]);
@@ -29,9 +29,9 @@ function toUrl_filter(name, tag) {
 
 function toUrl(name, action) {
     if (name.toLowerCase() == "home" && !action) {
-        return "/";
+        return require("./config").rootPath;
     } else {
         action = action || "";
-        return "/" + encodeURI(name) + "/"  + action;
+        return require("./config").rootPath + encodeURI(name) + "/"  + action;
     }
 }

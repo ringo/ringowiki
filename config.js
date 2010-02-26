@@ -1,10 +1,10 @@
 exports.httpConfig = {
-  staticDir: 'static'
+  staticDir: './static'
 };
 
 exports.urls = [
-    [ '/([^/]*)/edit', 'actions', 'edit' ],
-    [ '/', 'actions' ]
+    [ '/([^/]*)/edit', './actions', 'edit' ],
+    [ '/', './actions' ]
 ];
 
 exports.app = 'ringo/webapp';
@@ -18,7 +18,7 @@ var Store = require('ringo/storage/filestore').Store;
 exports.store = new Store('db');
 
 exports.macros = [
-    'helpers',
+    './helpers',
     'ringo/skin/macros',
     'ringo/skin/filters'
 ];

@@ -1,15 +1,15 @@
 include('ringo/webapp/response');
-include('model');
-include('helpers');
+include('./model');
+include('./helpers');
 
 exports.index = function(req, name, action) {
     name = name || 'home';
     var page = Page.byName(name);
     if (page) {
-        var skin = req.path == '/' ?
-            'skins/index.html' : 'skins/page.html';
+        var skin = name.toLowerCase() == 'home' ?
+            './skins/index.html' : './skins/page.html';
         page.body = page.revisions[0];
-        return new SkinnedResponse(skin, {page: page});
+        return skinResponse(skin, {page: page});
     } else {
         return createPage(name, req);
     }
@@ -21,17 +21,18 @@ exports.edit = function(req, name) {
 };
 
 exports.list = function(req) {
-    return new SkinnedResponse('skins/list.html', {pages: Page.all()});
+    return skinResponse('./skins/list.html',
+            {pages: Page.all()});
 }
 
 function updatePage(page, req) {
     if (req.isPost && req.params.save) {
         page.updateFrom(req.params);
         page.save();
-        return new RedirectResponse(toUrl(page.name));
+        return redirectResponse(toUrl(page.name));
     }
     page.body = req.params.body || page.revisions[0];
-    return new SkinnedResponse('skins/edit.html', {page: page});
+    return skinResponse('./skins/edit.html', {page: page});
 }
 
 function createPage(name, req) {
@@ -39,7 +40,7 @@ function createPage(name, req) {
         var page = new Page();
         page.updateFrom(req.params);
         page.save();
-        return new RedirectResponse(toUrl(page.name));
+        return redirectResponse(toUrl(page.name));
     }
-    return new SkinnedResponse('skins/new.html', {name: name});
+    return skinResponse('./skins/new.html', {name: name});
 };
