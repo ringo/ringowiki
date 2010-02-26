@@ -1,7 +1,8 @@
 include('ringo/markdown');
+include('./model');
 require('core/string');
 
-export('markdown_filter', 'toUrl_filter', 'toUrl');
+export('markdown_filter', 'toUrl_filter', 'navigation_macro', 'toUrl');
 
 function markdown_filter(content) {
     var markdown = new Markdown({
@@ -25,6 +26,13 @@ function markdown_filter(content) {
 
 function toUrl_filter(name, tag) {
     return toUrl(name, tag.parameters[0]);
+}
+
+function navigation_macro(tag) {
+    var page = Page.byName("navigation");
+    if (page) {
+        return markdown_filter(page.revisions[0]);
+    }
 }
 
 function toUrl(name, action) {
