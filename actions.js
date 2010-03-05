@@ -1,3 +1,4 @@
+require('core/string');
 include('ringo/webapp/response');
 include('./model');
 include('./helpers');
@@ -22,8 +23,11 @@ exports.edit = function(req, name) {
 
 exports.list = function(req) {
     return skinResponse('./skins/list.html',
-            {pages: Page.all()});
-}
+            {
+                pages: Page.all().sort(String.Sorter('name')),
+                title: "All Pages"
+            });
+};
 
 function updatePage(page, req) {
     if (req.isPost && req.params.save) {
