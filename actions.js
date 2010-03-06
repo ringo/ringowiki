@@ -22,11 +22,8 @@ exports.edit = function(req, name) {
 };
 
 exports.list = function(req) {
-    return skinResponse('./skins/list.html',
-            {
-                pages: Page.all().sort(String.Sorter('name')),
-                title: "All Pages"
-            });
+    return skinResponse('./skins/list.html', {
+            pages: Page.all().sort(String.Sorter('name'))});
 };
 
 function updatePage(page, req) {
