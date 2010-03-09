@@ -1,6 +1,7 @@
 include('ringo/markdown');
 include('./model');
 require('core/string');
+var render = require('ringo/skin').render;
 
 export('markdown_filter', 'toUrl_filter', 'navigation_macro', 'toUrl');
 
@@ -31,7 +32,6 @@ function toUrl_filter(name, tag) {
 function navigation_macro(tag) {
     var page = Page.byName("navigation");
     if (page) {
-        var render = require('ringo/skin').render;
         return render('./skins/navigation.txt', {
             content: page.revisions[0]
         });
