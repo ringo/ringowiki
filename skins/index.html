@@ -1,7 +1,7 @@
 <% extends skins/base.html %>
 
 <% subskin content %>
-<div><% page.body | markdown %></div>
+<% page.body | markdown %>
 <p>
     <a href="<% page.name | toUrl edit %>">edit this page</a> |
     <a href="<% href /list %>">list all pages</a>

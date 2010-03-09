@@ -2,8 +2,9 @@
 
 <% subskin content %>
 
-<h1><% page.name %></h1>
-<div><% page.body | markdown %></div>
+<h1><% title %></h1>
+
+<% page.body | markdown %>
 
 <p>
     <a href="<% page.name | toUrl edit %>">edit this page</a> |

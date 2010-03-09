@@ -7,10 +7,15 @@ exports.index = function(req, name, action) {
     name = name || 'home';
     var page = Page.byName(name);
     if (page) {
-        var skin = name.toLowerCase() == 'home' ?
-            './skins/index.html' : './skins/page.html';
+        var skin, title;
+        if (name.toLowerCase() == 'home') {
+            skin = './skins/index.html';
+        } else {
+            skin = './skins/page.html';
+            title = page.name;
+        }
         page.body = page.revisions[0];
-        return skinResponse(skin, {page: page});
+        return skinResponse(skin, {page: page, title: title});
     } else {
         return createPage(name, req);
     }
