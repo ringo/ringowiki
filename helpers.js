@@ -31,8 +31,12 @@ function toUrl_filter(name, tag) {
 function navigation_macro(tag) {
     var page = Page.byName("navigation");
     if (page) {
-        return markdown_filter(page.revisions[0]);
+        var render = require('ringo/skin').render;
+        return render('./skins/navigation.txt', {
+            content: page.revisions[0]
+        });
     }
+    return '';
 }
 
 function toUrl(name, action) {
