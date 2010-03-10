@@ -1,3 +1,4 @@
+require('core/array');
 export('Page');
 module.shared = true;
 
@@ -10,10 +11,19 @@ Page.byName = function(name) {
     return pages[0];
 };
 
-Page.prototype.updateFrom = function(obj) {
-    this.name = obj.name;
+Page.prototype.addRevision = function(body, created) {
     if (typeof this.revisions === 'undefined') {
         this.revisions = [];
     }
-    this.revisions.unshift(obj.body);
+    this.revisions.push({body: body, created: created});
+};
+
+Page.prototype.getRevision = function(version) {
+    var rev = version ? this.revisions[version] : this.revisions.peek();
+    return rev ? rev : {body: '', created: new Date()};
+};
+
+Page.prototype.updateFrom = function(obj) {
+    this.name = obj.name;
+    this.addRevision(obj.body, new Date());
 };

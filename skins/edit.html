@@ -9,7 +9,8 @@
 <div><textarea name="body" rows="30" ><% page.body | escapeForm %></textarea></div>
 
 <div style="width: 90%;">
-    Version <% page.revisions.length %> <% for revision in <% page.revisions %> render revisionLink %><br/>
+    <% for revision in <% page.revisions %> render revisionLink %>
+    Version <% page.revisions.length %>  <br/>
     <input name="save" value="Save" type="submit"/>
     <a href="<% page.name | toUrl %>">cancel</a> |
     <a href="http://www.kreatives-chaos.com/markdown_help.html">markdown help</a>
@@ -23,4 +24,4 @@
 </form>
 
 <% subskin revisionLink %>
-&larr; <a href="?version=<% index %>" rel="nofollow">v<% index %></a>
+<a href="?version=<% index %>" rel="nofollow">v<% index %></a> &rarr;

@@ -1,5 +1,6 @@
 include('ringo/markdown');
 include('./model');
+require('core/array');
 require('core/string');
 var render = require('ringo/skin').render;
 
@@ -33,7 +34,7 @@ function navigation_macro(tag) {
     var page = Page.byName("navigation");
     if (page) {
         return render('./skins/navigation.txt', {
-            content: page.revisions[0]
+            content: page.getRevision().body
         });
     }
     return '';
