@@ -1,0 +1,17 @@
+<% extends skins/base.html %>
+
+<% subskin content %>
+<h1>Recent Changes</h1>
+<ul>
+<% for change in <% changes %> render listitem %>
+</ul>
+
+<p><a href="<% href / %>">goto homepage</a></p>
+
+<% subskin listitem %>
+<li>
+    <% change.created %>:
+    <a href="<% change.page.name | toUrl %>?version=<% change.version %>">
+        <% change.page.name %>@<% change.version %>
+    </a>
+</li>

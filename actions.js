@@ -31,6 +31,22 @@ exports.list = function(req) {
             pages: Page.all().sort(String.Sorter('name'))});
 };
 
+exports.recent = function(req) {
+    var limit = req.params.limit || 50;
+    var changes = [];
+    for each (var page in Page.all()) {
+        for (var version in page.revisions) {
+            changes.push({
+                    page: page,
+                    version: version,
+                    created: page.revisions[version].created});
+        }
+    }
+    changes.sort(function (a, b) a.created > b.created ? -1 : 1);
+    return skinResponse('./skins/recent.html', {
+            changes: changes.slice(0, limit)});
+};
+
 function updatePage(page, req) {
     if (req.isPost && req.params.save) {
         if (!req.session.data.honeyPotName || req.params[req.session.data.honeyPotName]) {
