@@ -37,7 +37,8 @@ function updatePage(page, req) {
         page.save();
         return redirectResponse(toUrl(page.name));
     }
-    page.body = req.params.body || page.revisions[0];
+    var version = req.params.version || 0;
+    page.body = page.revisions[version];
     return skinResponse('./skins/edit.html', {page: page});
 }
 
