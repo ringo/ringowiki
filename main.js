@@ -3,5 +3,6 @@
 // main script to start application
 
 if (require.main == module.id) {
-    require("ringo/webapp").start();
+    addToClasspath('./lib/mysql-connector-java-5.1.12-bin.jar');
+    require('ringo/webapp').start();
 }

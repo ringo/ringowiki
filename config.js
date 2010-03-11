@@ -14,8 +14,7 @@ exports.middleware = [
     'ringo/middleware/responselog'
 ];
 
-var Store = require('ringo/storage/filestore').Store;
-exports.store = new Store('db');
+exports.store = require('ringo/storage/relationalstore/hibernate');
 
 exports.macros = [
     './helpers',

@@ -14,7 +14,7 @@ exports.index = function(req, name, action) {
             skin = './skins/page.html';
             title = page.name;
         }
-        page.body = page.revisions[0];
+        // page.body = page.revisions[0];
         return skinResponse(skin, {page: page, title: title});
     } else {
         return createPage(name, req);
@@ -37,8 +37,8 @@ function updatePage(page, req) {
         page.save();
         return redirectResponse(toUrl(page.name));
     }
-    var version = req.params.version || 0;
-    page.body = page.revisions[version];
+    // var version = req.params.version || 0;
+    // page.body = page.revisions[version];
     return skinResponse('./skins/edit.html', {page: page});
 }
 

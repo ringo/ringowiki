@@ -12,8 +12,9 @@ Page.byName = function(name) {
 
 Page.prototype.updateFrom = function(obj) {
     this.name = obj.name;
-    if (typeof this.revisions === 'undefined') {
-        this.revisions = [];
-    }
-    this.revisions.unshift(obj.body);
+    this.body = obj.body;
+    // if (typeof this.revisions === 'undefined') {
+    //     this.revisions = [];
+    // }
+    // this.revisions.unshift(obj.body);
 };
