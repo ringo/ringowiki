@@ -33,7 +33,7 @@ exports.list = function(req) {
 
 function updatePage(page, req) {
     if (req.isPost && req.params.save) {
-        if (req.params[req.session.data.honeyPotName]) {
+        if (!req.session.data.honeyPotName || req.params[req.session.data.honeyPotName]) {
             throw "Bot detected. <h1>If you are not a bot complain in our mailinglist.</h1>";
         }
         
