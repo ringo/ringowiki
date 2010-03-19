@@ -3,5 +3,5 @@
 // main script to start application
 
 if (require.main == module.id) {
-    require("ringo/webapp").start();
+    require('ringo/webapp').main(module.directory);require('ringo/webapp').main(module.directory);
 }
