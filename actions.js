@@ -50,4 +50,4 @@ function createPage(name, req) {
         return redirectResponse(toUrl(page.name));
     }
     return skinResponse('./skins/new.html', {name: name});
-};
+}
