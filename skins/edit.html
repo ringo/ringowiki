@@ -1,5 +1,8 @@
 <% extends skins/base.html %>
 
+<% subskin head %>
+<meta name="robots" content="noindex" />
+
 <% subskin content %>
 <form method="POST" action="<% page.name | toUrl edit %>">
 <div><input class="title" name="name" value="<% page.name | escapeForm %>"/></div>
