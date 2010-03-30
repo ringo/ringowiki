@@ -14,7 +14,9 @@ exports.middleware = [
     'ringo/middleware/responselog'
 ];
 
-exports.store = require('ringo/storage/relationalstore/hibernate');
+exports.store = require('ringo/storage/hibernate');
+
+exports.jars = ['jars/mysql-connector-java-5.1.12-bin.jar'];
 
 exports.macros = [
     './helpers',
