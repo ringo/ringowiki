@@ -1,5 +1,8 @@
 <% extends skins/base.html %>
 
+<% subskin head %>
+<meta name="robots" content="noindex" />
+
 <% subskin content %>
 <form method="POST" action="<% page.name | toUrl edit %>">
 <div><input class="title" name="name" value="<% page.name | escapeForm %>"/></div>
@@ -11,7 +14,13 @@
     <a href="<% page.name | toUrl %>">cancel</a> |
     <a href="http://www.kreatives-chaos.com/markdown_help.html">markdown help</a>
 </div>
+
+<span style="display:none; position:absolute; top:-1000; left:-1000;">
+    <label for="hnpt" class="hidden">If you are a human do not fill out this field.</label>
+    <input id="hnpt" name="<% honeyPotName %>" value="">
+</span>
+
 </form>
 
 <% subskin revisionLink %>
-&larr; <a href="?version=<% index %>"><% revision | truncate limit="10" %></a>
+&larr; <a href="?version=<% index %>" rel="nofollow">v<% index %></a>

@@ -33,13 +33,21 @@ exports.list = function(req) {
 
 function updatePage(page, req) {
     if (req.isPost && req.params.save) {
+        if (!req.session.data.honeyPotName || req.params[req.session.data.honeyPotName]) {
+            throw "Bot detected. <h1>If you are not a bot complain in our mailinglist.</h1>";
+        }
+        
         page.updateFrom(req.params);
         page.save();
         return redirectResponse(toUrl(page.name));
     }
     // var version = req.params.version || 0;
     // page.body = page.revisions[version];
-    return skinResponse('./skins/edit.html', {page: page});
+    req.session.data.honeyPotName = "phonenumber_" + parseInt(Math.random() * 1000);
+    return skinResponse('./skins/edit.html', {
+        page: page,
+        honeyPotName: req.session.data.honeyPotName,
+    });
 }
 
 function createPage(name, req) {
