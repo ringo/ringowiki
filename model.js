@@ -1,7 +1,9 @@
 export('Page');
 module.shared = true;
 
-var Page = require('./config').store.defineClass('Page');
+var Page = require('./config').store.defineClass('Page',
+        {name: {type: 'string', nullable: false},
+         body: {type: 'text',   nullable: false}});
 
 Page.byName = function(name) {
     name = name.toLowerCase();
