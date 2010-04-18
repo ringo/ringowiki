@@ -5,9 +5,10 @@ module.shared = true;
 var Page = require('./config').store.defineClass('Page');
 
 Page.byName = function(name) {
-    name = name.toLowerCase();
-    var pages = Page.all()
-        .filter(function(page) page.name.toLowerCase() == name);
+    name = name.toLowerCase().replace(/\s/g, '_');
+    var pages = Page.all().filter(function(page) {
+        return name == page.name.toLowerCase().replace(/\s/g, '_');
+    });
     return pages[0];
 };
 

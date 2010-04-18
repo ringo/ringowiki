@@ -72,5 +72,5 @@ function createPage(name, req) {
         page.save();
         return redirectResponse(toUrl(page.name));
     }
-    return skinResponse('./skins/new.html', {name: name});
+    return skinResponse('./skins/new.html', {name: name.replace(/_/g, ' ')});
 }

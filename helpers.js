@@ -45,6 +45,7 @@ function toUrl(name, action) {
         return require("./config").rootPath;
     } else {
         action = action || "";
+        name = name.replace(/\s/g, '_');
         return require("./config").rootPath + encodeURI(name) + "/"  + action;
     }
 }
