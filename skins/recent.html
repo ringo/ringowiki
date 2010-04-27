@@ -10,7 +10,7 @@
 
 <% subskin listitem %>
 <li>
-    <% change.created %>:
+    <% change.created | dateFormat "yyyy-MM-dd HH:mm" %>:
     <a href="<% change.page.name | toUrl %>?version=<% change.version %>">
         <% change.page.name %>@<% change.version %>
     </a>

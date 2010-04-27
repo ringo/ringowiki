@@ -39,7 +39,7 @@ exports.recent = function(req) {
             changes.push({
                     page: page,
                     version: version,
-                    created: page.revisions[version].created});
+                    created: new Date(page.revisions[version].created)});
         }
     }
     changes.sort(function (a, b) a.created > b.created ? -1 : 1);
