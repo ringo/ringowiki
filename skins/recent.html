@@ -2,16 +2,21 @@
 
 <% subskin content %>
 <h1>Recent Changes</h1>
-<ul>
-<% for change in <% changes %> render listitem %>
+<% for day in <% days %> render day %>
 </ul>
 
 <p><a href="<% href / %>">goto homepage</a></p>
 
-<% subskin listitem %>
-<li>
-    <% change.created | dateFormat "yyyy-MM-dd HH:mm" %>:
+<% subskin day %>
+<h2><% day.title %></h2>
+<dl>
+<% for change in <% day.changes %> render change %>
+</dl>
+
+<% subskin change %>
+<dt>
+    <span class="time"><% change.created | dateFormat "HH:mm" %></span>:
     <a href="<% change.page.name | toUrl %>?version=<% change.version %>">
-        <% change.page.name %>@<% change.version %>
+        <span class="name"><% change.page.name %></span>
     </a>
-</li>
+</dt>

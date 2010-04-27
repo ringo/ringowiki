@@ -34,6 +34,8 @@ exports.list = function(req) {
 exports.recent = function(req) {
     var limit = req.params.limit || 50;
     var changes = [];
+
+    // Retrieve all changes.
     for each (var page in Page.all()) {
         for (var version in page.revisions) {
             changes.push({
@@ -42,9 +44,24 @@ exports.recent = function(req) {
                     created: new Date(page.revisions[version].created)});
         }
     }
+
+    // Sort them reverse chronologically.
     changes.sort(function (a, b) a.created > b.created ? -1 : 1);
-    return skinResponse('./skins/recent.html', {
-            changes: changes.slice(0, limit)});
+
+    // Group changes by day.
+    // @@ We probably should not manually do the grouping here, but rather use
+    // a nice grouping function in some library somewhere.
+    var days = [];
+    var oldDay;
+    for each (var change in changes.slice(0, limit)) {
+        var curDay = change.created.format('yyyy-MM-dd');
+        if (curDay != oldDay) {
+            days.push({title: curDay, changes: []});
+            oldDay = curDay;
+        }
+        days[days.length - 1].changes.push(change);
+    }
+    return skinResponse('./skins/recent.html', {days: days});
 };
 
 function updatePage(page, req) {
