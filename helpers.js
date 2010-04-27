@@ -4,7 +4,12 @@ require('core/array');
 require('core/string');
 var render = require('ringo/skin').render;
 
-export('markdown_filter', 'toUrl_filter', 'navigation_macro', 'toUrl');
+export(
+    'markdown_filter',
+    'toUrl_filter',
+    'navigation_macro',
+    'toUrl'
+);
 
 function markdown_filter(content) {
     var markdown = new Markdown({
