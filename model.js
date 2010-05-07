@@ -2,7 +2,7 @@ require('core/array');
 export('Page');
 module.shared = true;
 
-var Page = require('./config').store.defineClass('Page');
+var Page = require('./config').store.defineEntity('Page');
 
 Page.byName = function(name) {
     name = name.toLowerCase().replace(/\s/g, '_');
