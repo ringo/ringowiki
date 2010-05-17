@@ -1,6 +1,5 @@
 require('core/array');
 export('Page');
-module.shared = true;
 
 var Page = require('./config').store.defineEntity('Page');
 
