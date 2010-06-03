@@ -12,7 +12,7 @@ exports.app = 'ringo/webapp';
 exports.middleware = [
     'ringo/middleware/etag',
     'ringo/middleware/responselog',
-    'ride/middleware/error',
+    'ringo/middleware/error',
     'ringo/middleware/notfound'
 ];
 
