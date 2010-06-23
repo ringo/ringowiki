@@ -5,7 +5,7 @@
 
 <% subskin content %>
 <form method="POST" action="<% page.name | toUrl edit %>">
-<div><input class="title" name="name" value="<% page.name | escapeForm %>"/></div>
+<div><input class="title" name="name" value="<% page.name | escapeHtml %>"/></div>
 <div><textarea name="body" rows="30" ><% page.body | escapeHtml %></textarea></div>
 
 <div style="width: 90%;">
