@@ -1,7 +1,7 @@
-require('core/string');
-include('ringo/webapp/response');
-include('./model');
-include('./helpers');
+var STRING = require('ringo/utils/string');
+var {Response, skinResponse, redirectResponse} = require('ringo/webapp/response');
+var {Page} = require('./model');
+var {toUrl} = require('./helpers');
 
 exports.index = function(req, name, action) {
     name = name || 'home';
@@ -28,7 +28,7 @@ exports.edit = function(req, name) {
 
 exports.list = function(req) {
     return skinResponse('./skins/list.html', {
-            pages: Page.all().sort(String.Sorter('name'))});
+            pages: Page.all().sort(STRING.Sorter('name'))});
 };
 
 exports.recent = function(req) {
@@ -69,7 +69,7 @@ function updatePage(page, req) {
         if (!req.session.data.honeyPotName || req.params[req.session.data.honeyPotName]) {
             throw "Bot detected. <h1>If you are not a bot complain in our mailinglist.</h1>";
         }
-        
+
         page.updateFrom(req.params);
         page.save();
         return redirectResponse(toUrl(page.name));

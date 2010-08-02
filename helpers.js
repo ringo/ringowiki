@@ -1,7 +1,6 @@
-include('ringo/markdown');
-include('./model');
-require('core/array');
-require('core/string');
+var {Markdown} = require('ringo/markdown');
+var {Page} = require('./model');
+var STRING = require('ringo/utils/string');
 var render = require('ringo/skin').render;
 
 export(
@@ -14,7 +13,7 @@ export(
 function markdown_filter(content) {
     var markdown = new Markdown({
         lookupLink: function(id) {
-            if (!id.startsWith("/") && !id.isUrl()) {
+            if (!STRING.startsWith(id, "/") && !STRING.isUrl(id.isUrl)) {
                 return [toUrl(id),
                         "link to wiki page"];
             }

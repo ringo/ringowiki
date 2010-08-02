@@ -1,4 +1,5 @@
-require('core/array');
+var ARRAY = require('ringo/utils/array');
+
 export('Page', 'PageIndex');
 
 var store = require('./config').store;
@@ -47,7 +48,7 @@ Page.prototype.addRevision = function(body, created) {
 };
 
 Page.prototype.getRevision = function(version) {
-    var rev = version ? this.revisions[version] : this.revisions.peek();
+    var rev = version ? this.revisions[version] : ARRAY.peek(this.revisions);
     return rev ? rev : {body: '', created: new Date()};
 };
 
