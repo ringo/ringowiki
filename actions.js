@@ -1,3 +1,4 @@
+var DATE = require('ringo/utils/date');
 var STRING = require('ringo/utils/string');
 var {Response, skinResponse, redirectResponse} = require('ringo/webapp/response');
 var {Page} = require('./model');
@@ -54,7 +55,7 @@ exports.recent = function(req) {
     var days = [];
     var oldDay;
     for each (var change in changes.slice(0, limit)) {
-        var curDay = change.created.format('yyyy-MM-dd');
+        var curDay = DATE.format(change.created, 'yyyy-MM-dd');
         if (curDay != oldDay) {
             days.push({title: curDay, changes: []});
             oldDay = curDay;
