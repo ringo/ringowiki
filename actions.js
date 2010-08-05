@@ -1,5 +1,5 @@
-var DATE = require('ringo/utils/date');
-var STRING = require('ringo/utils/string');
+var dates = require('ringo/utils/dates');
+var strings = require('ringo/utils/strings');
 var {Response, skinResponse, redirectResponse} = require('ringo/webapp/response');
 var {Page} = require('./model');
 var {toUrl} = require('./helpers');
@@ -29,7 +29,7 @@ exports.edit = function(req, name) {
 
 exports.list = function(req) {
     return skinResponse('./skins/list.html', {
-            pages: Page.all().sort(STRING.Sorter('name'))});
+            pages: Page.all().sort(strings.Sorter('name'))});
 };
 
 exports.recent = function(req) {
@@ -55,7 +55,7 @@ exports.recent = function(req) {
     var days = [];
     var oldDay;
     for each (var change in changes.slice(0, limit)) {
-        var curDay = DATE.format(change.created, 'yyyy-MM-dd');
+        var curDay = dates.format(change.created, 'yyyy-MM-dd');
         if (curDay != oldDay) {
             days.push({title: curDay, changes: []});
             oldDay = curDay;
