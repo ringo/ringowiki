@@ -1,6 +1,6 @@
 var dates = require('ringo/utils/dates');
 var strings = require('ringo/utils/strings');
-var {Response, skinResponse, redirectResponse} = require('ringo/webapp/response');
+var {Response} = require('ringo/webapp/response');
 var {Page} = require('./model');
 var {toUrl} = require('./helpers');
 
@@ -10,13 +10,13 @@ exports.index = function(req, name, action) {
     if (page) {
         var skin, title;
         if (name.toLowerCase() == 'home') {
-            skin = './skins/index.html';
+            skin = module.resolve('skins/index.html');
         } else {
-            skin = './skins/page.html';
+            skin = module.resolve('skins/page.html');
             title = page.name;
         }
         page.body = page.getRevision(req.params.version).body;
-        return skinResponse(skin, {page: page, title: title, version: version});
+        return Response.skin(skin, {page: page, title: title, version: version});
     } else {
         return createPage(name, req);
     }
@@ -28,7 +28,7 @@ exports.edit = function(req, name) {
 };
 
 exports.list = function(req) {
-    return skinResponse('./skins/list.html', {
+    return Response.skin(module.resolve('skins/list.html'), {
             pages: Page.all().sort(strings.Sorter('name'))});
 };
 
@@ -62,7 +62,7 @@ exports.recent = function(req) {
         }
         days[days.length - 1].changes.push(change);
     }
-    return skinResponse('./skins/recent.html', {days: days});
+    return Response.skin(module.resolve('skins/recent.html'), {days: days});
 };
 
 function updatePage(page, req) {
@@ -73,11 +73,11 @@ function updatePage(page, req) {
 
         page.updateFrom(req.params);
         page.save();
-        return redirectResponse(toUrl(page.name));
+        return Response.redirect(toUrl(page.name));
     }
     page.body = page.getRevision(req.params.version).body;
     req.session.data.honeyPotName = "phonenumber_" + parseInt(Math.random() * 1000);
-    return skinResponse('./skins/edit.html', {
+    return Response.skin(module.resolve('skins/edit.html'), {
         page: page,
         honeyPotName: req.session.data.honeyPotName,
     });
@@ -88,7 +88,8 @@ function createPage(name, req) {
         var page = new Page();
         page.updateFrom(req.params);
         page.save();
-        return redirectResponse(toUrl(page.name));
+        return Response.redirect(toUrl(page.name));
     }
-    return skinResponse('./skins/new.html', {name: name.replace(/_/g, ' ')});
+    return Response.skin(module.resolve('skins/new.html'), {name: name.replace(/_/g, ' ')});
 }
+
