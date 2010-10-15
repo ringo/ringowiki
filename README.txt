@@ -1,4 +1,4 @@
-This is a minimal wiki demo app for RingoJS using Hibernate storage package.
+This is a minimal wiki demo app for RingoJS using ringo-sqlstore.
 
 To run it init the DB (MySQL), e.g.:
 
