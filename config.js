@@ -1,5 +1,3 @@
-module.shared = true;
-
 exports.httpConfig = {
   staticDir: './static'
 };
