@@ -1,5 +1,3 @@
-module.shared = true;
-
 exports.httpConfig = {
   staticDir: './static'
 };
@@ -16,7 +14,13 @@ exports.middleware = [
     'ringo/middleware/responselog'
 ];
 
-exports.store = require('ringo/storage/hibernate');
+var Store = require('ringo/storage/sql/store').Store;
+exports.store = new Store({
+    url: 'jdbc:mysql://localhost/ringowiki',
+    driver: 'com.mysql.jdbc.Driver',
+    user: 'ringo',
+    password: 'secret'
+});
 
 exports.jars = ['jars/mysql-connector-java-5.1.12-bin.jar'];
 
