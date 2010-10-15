@@ -9,9 +9,7 @@ var Page = require('./config').store.defineEntity('Page', {
 
 Page.byName = function(name) {
     name = name.toLowerCase();
-    var pages = Page.all()
-        .filter(function(page) page.name.toLowerCase() == name);
-    return pages[0];
+    return Page.query().equals("name", name).select()[0];
 };
 
 Page.prototype.updateFrom = function(obj) {
