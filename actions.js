@@ -28,7 +28,8 @@ exports.edit = function(req, name) {
 
 exports.list = function(req) {
     return Response.skin(module.resolve('./skins/list.html'), {
-            pages: Page.all().sort(strings.Sorter('name'))});
+            pages: Page.query().orderBy('name').select()
+    });
 };
 
 function updatePage(page, req) {
