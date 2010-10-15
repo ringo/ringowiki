@@ -1,4 +1,4 @@
-require('core/string');
+var strings = require('ringo/utils/strings');
 include('ringo/webapp/response');
 include('./model');
 include('./helpers');
@@ -15,7 +15,7 @@ exports.index = function(req, name, action) {
             title = page.name;
         }
         // page.body = page.revisions[0];
-        return skinResponse(skin, {page: page, title: title});
+        return Response.skin(module.resolve(skin), {page: page, title: title});
     } else {
         return createPage(name, req);
     }
@@ -27,8 +27,8 @@ exports.edit = function(req, name) {
 };
 
 exports.list = function(req) {
-    return skinResponse('./skins/list.html', {
-            pages: Page.all().sort(String.Sorter('name'))});
+    return Response.skin(module.resolve('./skins/list.html'), {
+            pages: Page.all().sort(strings.Sorter('name'))});
 };
 
 function updatePage(page, req) {
@@ -39,12 +39,12 @@ function updatePage(page, req) {
         
         page.updateFrom(req.params);
         page.save();
-        return redirectResponse(toUrl(page.name));
+        return Response.redirect(toUrl(page.name));
     }
     // var version = req.params.version || 0;
     // page.body = page.revisions[version];
     req.session.data.honeyPotName = "phonenumber_" + parseInt(Math.random() * 1000);
-    return skinResponse('./skins/edit.html', {
+    return Response.skin(module.resolve('./skins/edit.html'), {
         page: page,
         honeyPotName: req.session.data.honeyPotName,
     });
@@ -55,7 +55,7 @@ function createPage(name, req) {
         var page = new Page();
         page.updateFrom(req.params);
         page.save();
-        return redirectResponse(toUrl(page.name));
+        return Response.redirect(toUrl(page.name));
     }
-    return skinResponse('./skins/new.html', {name: name});
+    return Response.skin(module.resolve('./skins/new.html'), {name: name});
 }
