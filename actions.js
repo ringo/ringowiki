@@ -16,7 +16,11 @@ exports.index = function(req, name, action) {
             title = page.name;
         }
         page.body = page.getRevision(req.params.version).body;
-        return Response.skin(skin, {page: page, title: title, version: version});
+        return Response.skin(skin, {
+            page: page,
+            title: title,
+            headline: title,
+            version: version});
     } else {
         return createPage(name, req);
     }
@@ -92,4 +96,3 @@ function createPage(name, req) {
     }
     return Response.skin(module.resolve('skins/new.html'), {name: name.replace(/_/g, ' ')});
 }
-
