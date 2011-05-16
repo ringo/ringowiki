@@ -4,29 +4,35 @@ export('Page', 'PageIndex');
 
 var store = require('./config').store;
 // PageIndex is a singleton object that maps page names to page ids
-var PageIndex = store.defineEntity('PageIndex');
-var Page = store.defineEntity('Page');
+var PageIndex = store.defineEntity('PageIndex', {properties: {
+            map: "object"
+        }});
+var Page = store.defineEntity('Page', {properties: {
+            name: "string",
+            revisions: "array"
+        }});
 
 // create PageIndex singleton
 var index = PageIndex.all()[0];
 if (!index) {
     index = new PageIndex();
+    index.map = {};
     index.save();
 }
 
 PageIndex.prototype.updatePage = sync(function(oldName, newName, id) {
     if (oldName) {
-        delete this[escapeName(oldName)];
+        delete this.map[escapeName(oldName)];
     }
     if (newName && id != null) {
-        this[escapeName(newName)] = id;
+        this.map[escapeName(newName)] = id;
     }
     this.save();
 }, store);
 
 Page.byName = function(name) {
     name = escapeName(name);
-    var pageId = index[name];
+    var pageId = index.map[name];
     var page = pageId != null && Page.get(pageId);
     if (!page) {
         var pages = Page.all().filter(function(page) {

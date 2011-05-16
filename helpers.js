@@ -1,20 +1,36 @@
 var {Markdown} = require('ringo/markdown');
 var {Page} = require('./model');
+var {app} = require('./actions');
 var strings = require('ringo/utils/strings');
-var render = require('ringo/skin').render;
+var mustache = require("ringo/mustache");
 
 export(
-    'markdown_filter',
-    'toUrl_filter',
-    'navigation_macro',
-    'toUrl'
+    'baseUrl',
+    'editUrl',
+    'listUrl',
+    'markdown',
+    'navigation'
 );
 
-function markdown_filter(content) {
+function baseUrl(name) {
+    var url = app.base || "/";
+    return name ? url + encodeURI(name) : url;
+}
+
+function editUrl(name) {
+    name = name.replace(/\s/g, '_');
+    return baseUrl() + encodeURI(name) + "/edit";
+}
+
+function listUrl() {
+    return baseUrl() + "list";
+}
+
+function markdown(content) {
     var markdown = new Markdown({
         lookupLink: function(id) {
             if (!strings.startsWith(id, "/") && !strings.isUrl(id.isUrl)) {
-                return [toUrl(id),
+                return [baseUrl(id),
                         "link to wiki page"];
             }
             return null;
@@ -30,26 +46,14 @@ function markdown_filter(content) {
     return markdown.process(content);
 }
 
-function toUrl_filter(name, tag) {
-    return toUrl(name, tag.parameters[0]);
-}
-
-function navigation_macro(tag) {
+function navigation(tag) {
     var page = Page.byName("navigation");
     if (page) {
-        return render('./skins/navigation.txt', {
-            content: page.getRevision().body
-        });
+        return mustache.to_html(
+            getResource('./skins/navigation.txt').getContent(), {
+                content: page.getRevision().body
+            }
+        );
     }
     return '';
-}
-
-function toUrl(name, action) {
-    if (name.toLowerCase() == "home" && !action) {
-        return require("./config").rootPath;
-    } else {
-        action = action || "";
-        name = name.replace(/\s/g, '_');
-        return require("./config").rootPath + encodeURI(name) + "/"  + action;
-    }
 }

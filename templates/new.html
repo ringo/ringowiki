@@ -1,8 +1,5 @@
-<% extends skins/base.html %>
-
-<% subskin content %>
 <form method="POST">
-<div><input class="title" name="name" value="<% name | escapeHtml %>"/></div>
+<div><input class="title" name="name" value="{{name}}"/></div>
 <div><textarea name="body" rows="30"></textarea></div>
 
 <div><input name="save" value="Save" type="submit"/>

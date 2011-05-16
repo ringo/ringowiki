@@ -1,29 +1,6 @@
-exports.httpConfig = {
-  staticDir: './static'
-};
-
-exports.urls = [
-    [ '/([^/]*)/edit', './actions', 'edit' ],
-    [ '/', './actions' ]
-];
-
-exports.app = 'ringo/webapp';
-
-exports.middleware = [
-    'ringo/middleware/etag',
-    'ringo/middleware/responselog',
-    'ringo/middleware/error',
-    'ringo/middleware/notfound'
-];
-
-var Store = require('ringo/storage/filestore').Store;
+var {Store} = require('ringo-filestore');
 exports.store = new Store('db');
 
-exports.macros = [
-    './helpers',
-    'ringo/skin/macros',
-    'ringo/skin/filters'
-];
-
-exports.charset = 'UTF-8';
-exports.contentType = 'text/html';
+var app = exports.app = require("./actions").app;
+app.configure("etag", "responselog", "error", "notfound", "session", "static");
+app.static(module.resolve("public"));

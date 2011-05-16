@@ -1,0 +1,26 @@
+{{#page}}
+<form method="POST" action="{{editUrl name}}">
+<div><input class="title" name="name" value="{{name}}"/></div>
+<div><textarea name="body" rows="30" >{{body}}</textarea></div>
+
+<div style="width: 90%;">
+    <input name="save" value="Save" type="submit"/>
+    <a href="{{baseUrl name}}">cancel</a> |
+    <a href="http://www.kreatives-chaos.com/markdown_help.html">markdown help</a>
+
+    <p> Revision history:
+    {{#revisions}}
+        <a href="?version={{index}}" rel="nofollow">v{{index}}</a> &rarr;
+    {{/revisions}}
+    Version {{#revisions}}{{length}}{{/revisions}}</p>
+</div>
+
+{{/page}}
+
+<span style="display:none; position:absolute; top:-1000; left:-1000;">
+    <label for="hnpt" class="hidden">If you are a human do not fill out this field.</label>
+    <input id="hnpt" name="<% honeyPotName %>" value="">
+</span>
+
+</form>
+
