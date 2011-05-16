@@ -2,6 +2,7 @@ var {Markdown} = require('ringo/markdown');
 var {Page} = require('./model');
 var {app} = require('./actions');
 var strings = require('ringo/utils/strings');
+var dates = require('ringo/utils/dates');
 var mustache = require("ringo/mustache");
 
 export(
@@ -9,7 +10,8 @@ export(
     'editUrl',
     'listUrl',
     'markdown',
-    'navigation'
+    'navigation',
+    'timeFormat'
 );
 
 function baseUrl(name) {
@@ -56,4 +58,8 @@ function navigation(tag) {
         );
     }
     return '';
+}
+
+function timeFormat(date) {
+    return dates.format(date, "HH:mm");
 }
