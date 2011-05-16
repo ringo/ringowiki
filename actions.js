@@ -1,5 +1,5 @@
 var {Sorter} = require('ringo/utils/strings');
-var {redirect} = require('ringo/jsgi/response');
+var response = require('ringo/jsgi/response');
 var {Page} = require('./model');
 var {Application} = require("stick");
 
@@ -42,30 +42,31 @@ app.get("/:name?", function(req, name) {
 });
 
 app.post("/:name?", function(req, name) {
+    if (req.params.hm != "yes") {
+        return response.html("Sorry, this wiki is humans only.");
+    }
     name = name || 'home';
     var page = new Page();
     page.updateFrom(req.params);
     page.save();
-    return redirect(req.scriptName + "/" + encodeURIComponent(name));
+    return response.redirect(req.scriptName + "/" + encodeURIComponent(name));
 });
 
 app.get("/:name/edit", function(req, name) {
     var page = Page.byName(name);
     page.body = page.getRevision(req.params.version).body;
-    req.session.data.honeyPotName = "phonenumber_" + parseInt(Math.random() * 1000);
     return app.render('edit.html', {
         page: page,
-        honeyPotName: req.session.data.honeyPotName,
     });
 });
 
 app.post("/:name/edit", function(req, name) {
-    if (!req.session.data.honeyPotName || req.params[req.session.data.honeyPotName]) {
-        throw "Bot detected. <h1>If you are not a bot complain in our mailinglist.</h1>";
+    if (req.params.hm != "yes") {
+        return response.html("Sorry, this wiki is humans only.");
     }
     var page = Page.byName(name);
     page.updateFrom(req.params);
     page.save();
-    return redirect(req.scriptName + "/" + encodeURIComponent(name));
+    return response.redirect(req.scriptName + "/" + encodeURIComponent(name));
 });
 
