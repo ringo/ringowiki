@@ -13,13 +13,13 @@ export(
 );
 
 function baseUrl(name) {
-    var url = app.base || "/";
+    name = name && name.replace(/\s/g, '_');
+    var url = (app.base || "") + "/";
     return name ? url + encodeURI(name) : url;
 }
 
 function editUrl(name) {
-    name = name.replace(/\s/g, '_');
-    return baseUrl() + encodeURI(name) + "/edit";
+    return baseUrl(name || "home") + "/edit";
 }
 
 function listUrl() {
