@@ -1,6 +1,7 @@
 var {Markdown} = require('ringo/markdown');
 var {Page} = require('./model');
 var {app} = require('./actions');
+
 var strings = require('ringo/utils/strings');
 var dates = require('ringo/utils/dates');
 var mustache = require("ringo/mustache");
@@ -48,11 +49,12 @@ function markdown(content) {
     return markdown.process(content);
 }
 
-function navigation(tag) {
+function navigation() {
     var page = Page.byName("navigation");
     if (page) {
         return mustache.to_html(
-            getResource('./skins/navigation.txt').getContent(), {
+            getResource('./templates/navigation.txt').getContent(), {
+                markdown: markdown,
                 content: page.getRevision().body
             }
         );
