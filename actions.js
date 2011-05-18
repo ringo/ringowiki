@@ -54,18 +54,20 @@ app.get("/:name?", function(req, name) {
     name = name || 'home';
     var page = Page.byName(name);
     if (page) {
-        var skin, title;
+        var skin, title, headline;
         if (name.toLowerCase() == 'home') {
             skin = 'index.html';
+            title = "Wiki";
         } else {
             skin = 'page.html';
-            title = page.name;
+            title = page.name + " - Wiki";
+            headline = page.name;
         }
         page.body = page.getRevision(req.params.version).body;
         return app.render(skin, {
             page: page,
             title: title,
-            headline: title,
+            headline: headline,
             version: version,
             basePath: req.scriptName
         });
