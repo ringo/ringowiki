@@ -18,6 +18,8 @@ if (!index) {
     index = new PageIndex();
     index.map = {};
     index.save();
+} else if (!index.map) {
+    index.map = {}
 }
 
 PageIndex.prototype.updatePage = sync(function(oldName, newName, id) {
