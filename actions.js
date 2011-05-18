@@ -104,7 +104,7 @@ app.post("/:name/edit", function(req, name) {
     var page = Page.byName(name);
     page.updateFrom(req.params);
     page.save();
-    return response.redirect(req.scriptName + "/" + encodeURIComponent(name));
+    return response.redirect(req.scriptName + "/" + encodeURIComponent(page.name));
 });
 
 
