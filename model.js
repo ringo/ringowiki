@@ -2,7 +2,9 @@ var arrays = require('ringo/utils/arrays');
 
 export('Page', 'PageIndex');
 
-var store = require('./config').store;
+var {Store} = require('ringo-filestore');
+var store = exports.store = new Store('/var/lib/ringojs/db');
+
 // PageIndex is a singleton object that maps page names to page ids
 var PageIndex = store.defineEntity('PageIndex', {properties: {
             map: "object"
@@ -19,7 +21,7 @@ if (!index) {
     index.map = {};
     index.save();
 } else if (!index.map) {
-    index.map = {}
+    index.map = {};
 }
 
 PageIndex.prototype.updatePage = sync(function(oldName, newName, id) {
