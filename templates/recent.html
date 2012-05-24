@@ -1,18 +1,15 @@
-<h1>Recent Changes</h1>
-<ul>
-{{#days}}
-<h2>{{title}}</h2>
 <dl>
-{{#changes}}
-<dt>
-    <span class="time">{{timeFormat created}}</span>:
-    <a href="{{baseUrl name}}?version={{version}}">
-        <span class="name">{{name}}</span>
-    </a>
-</dt>
-{{/changes}}
-</dl>
-{{/days}}
-</ul>
 
-<p><a href="{{baseUrl}}">goto homepage</a></p>
+{{#days}}
+<dt>{{title}}</dt>
+    {{#changes}}
+    <dd>
+        <span class="time">{{timeFormat created}}</span>: 
+        <a href="{{baseUrl name}}?version={{version}}"><span class="name">{{name}}</span></a>
+    </dd>
+    {{/changes}}
+{{/days}}
+
+</dl>
+
+<p><a href="{{baseUrl}}">go home</a></p>

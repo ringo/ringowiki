@@ -1,8 +1,11 @@
 {{#page}}
 <form method="POST" action="{{editUrl name}}">
-<div><input class="title" name="name" value="{{name}}"/></div>
-<div><textarea name="body" rows="30" >{{body}}</textarea></div>
-<div>Are you human? (yes/no) <input name="hm" size="4" value=""></div>
+
+<input class="title" name="name" value="{{name}}" />
+
+<textarea id="body" name="body" rows="30" >{{body}}</textarea>
+
+<div>Are you human? (yes/no) <input id="hm" name="hm" size="4" value=""></div>
 
 <div style="width: 90%;">
     <input name="save" value="Save" type="submit"/>
@@ -10,13 +13,12 @@
     <a href="http://www.kreatives-chaos.com/markdown_help.html">markdown help</a>
 
     <p> Revision history:
-    {{#revisions}}
-        <a href="?version={{index}}" rel="nofollow">v{{index}}</a> &rarr;
-    {{/revisions}}
-    Version {{#revisions}}{{length}}{{/revisions}}</p>
+    {{#changes}}
+        <a href="?version={{version}}" rel="nofollow">v{{version}}</a> &rarr;
+    {{/changes}}
+    Version {{currentVersion}}
+    </p>
 </div>
 
 </form>
 {{/page}}
-
-

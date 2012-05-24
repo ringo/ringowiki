@@ -1,18 +1,31 @@
 <!DOCTYPE html >
 <html lang="en" dir="ltr">
 <head>
-<title>{{title}}</title>
-<link rel="stylesheet" href="{{baseUrl}}static/style.css" />
-<link rel="stylesheet" href="{{baseUrl}}static/sh_hns.min.css" />
-<script type="text/javascript" src="{{baseUrl}}static/sh_main.min.js"></script>
-<script type="text/javascript" src="{{baseUrl}}static/sh_javascript.min.js"></script>
-{{{head}}}
+    <meta charset="utf-8" />
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="{{baseUrl}}static/normalize.css" />
+    <link rel="stylesheet" href="{{baseUrl}}static/style.css" />
+    <link rel="stylesheet" href="{{baseUrl}}static/sh_hns.min.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="{{baseUrl}}static/sh_main.min.js"></script>
+    <script src="{{baseUrl}}static/sh_javascript.min.js"></script>
+    <script src="{{baseUrl}}static/main.js"></script>
+
+    {{{head}}}
 </head>
 
 <body onload="sh_highlightDocument();">
 
-<h1>{{headline}}</h1>
+    <div class="wrapper">
 
-{{{content}}}
+        {{#headline}}
+        <h1>{{headline}}</h1>
+        {{/headline}}
+        
+        {{{content}}}
+
+    </div>
+
 </body>
 </html>

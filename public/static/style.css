@@ -1,15 +1,37 @@
-.intro {
-    color: #c90;
-    font-weight: bolder;
+body {
+    font-family: Helvetica, Arial, sans-serif;
 }
 
-textarea {
-    width: 90%;
-    height: 30em;
+.wrapper {
+    width: 680px;
+    margin: 0 auto;
+}
+
+p {
+    line-height: 1.250em;
+}
+
+dt {
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+dd {
+    margin: 5px 0;
+}
+
+form {
+    margin-top: 2em;
+}
+
+textarea,
+input.title {
+    width: 100%;
+    margin: 0 0 0.5em;
+    padding: 4px;
 }
 
 input.title {
-    width: 90%;
-    font-size: 1.2em;
     font-weight: bold;
+    font-size: 1.25em;
 }

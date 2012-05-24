@@ -1,9 +1,10 @@
 <h1>All Pages</h1>
-{{#pages}}
-<div>
-    <a href="{{baseUrl name}}">{{name}}</a>
-</div>
-{{/pages}}
 
-<p><a href="{{baseUrl}}">goto homepage</a></p>
+<ul>
+{{#pages}}
+    <li><a href="{{baseUrl name}}">{{name}}</a></li>
+{{/pages}}
+</ul>
+
+<p><a href="{{baseUrl}}">got home</a></p>
 

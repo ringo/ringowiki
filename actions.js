@@ -47,7 +47,7 @@ app.get("/recent", function(req) {
         }
         days[days.length - 1].changes.push(change);
     }
-    return app.render("recent.html", {days: days});
+    return app.render("recent.html", {days: days, title: "Recent Changes", headline: "Recent Changes"});
 });
 
 app.get("/:name?", function(req, name) {
@@ -58,6 +58,7 @@ app.get("/:name?", function(req, name) {
         if (name.toLowerCase() == 'home') {
             skin = 'index.html';
             title = "Wiki";
+            headline = "Home";
         } else {
             skin = 'page.html';
             title = page.name + " - Wiki";
@@ -92,8 +93,21 @@ app.post("/:name?", function(req, name) {
 app.get("/:name/edit", function(req, name) {
     var page = Page.byName(name);
     page.body = page.getRevision(req.params.version).body;
+
+    var changes = [];
+    for (var version in page.revisions) {
+        changes.push({
+            name: page.name,
+            version: version,
+            created: new Date(page.revisions[version].created)
+        });
+    }
+
     return app.render('edit.html', {
+        title: "Edit " + page.name,
         page: page,
+        changes: changes,
+        currentVersion: changes.length
     });
 });
 

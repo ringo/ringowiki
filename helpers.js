@@ -10,6 +10,7 @@ export(
     'baseUrl',
     'editUrl',
     'listUrl',
+    'recentUrl',
     'markdown',
     'navigation',
     'timeFormat'
@@ -27,6 +28,10 @@ function editUrl(name) {
 
 function listUrl() {
     return baseUrl() + "list";
+}
+
+function recentUrl() {
+    return baseUrl() + "recent";
 }
 
 function markdown(content) {
