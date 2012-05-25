@@ -8,15 +8,28 @@ body {
 }
 
 p {
-    line-height: 1.250em;
+    line-height: 1.313em;
 }
 
-dt {
+ol.recent,
+ol.recent ol {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.recent li.day {
+    margin-bottom: 20px;
+}
+
+.recent li.day h2 {
     font-weight: bold;
     font-size: 1.25em;
+    margin: 0;
 }
 
-dd {
+.allPages li,
+.recent li.change {
     margin: 5px 0;
 }
 
@@ -34,4 +47,37 @@ input.title {
 input.title {
     font-weight: bold;
     font-size: 1.25em;
+}
+
+.humanCheck {
+    margin: 10px 0;
+}
+
+/** Page text **/
+.pageText h2 {
+    font-size: 1.375em;
+    margin: 1em 0 0;
+}
+
+.pageText p {
+    margin: 0.25em 0 0.875em;
+}
+
+.pageText li {
+    margin-bottom: 0.375em;
+    line-height: 1.313em;
+}
+
+.pageText pre {
+    font-size: 0.813em;
+    background-color: #EEEEFF;
+    border-color: #BBCCFF;
+    border-style: solid;
+    border-width: 1px;
+    overflow: auto;
+    padding: 0.5em;
+}
+
+.pageText hr {
+    margin: 2em 0;
 }

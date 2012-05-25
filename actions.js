@@ -10,15 +10,13 @@ app.render.base = module.resolve("templates");
 app.render.master = "base.html";
 app.render.helpers = require("./helpers");
 
-
 app.get("/list", function(req) {
     return app.render('list.html', {
         pages: Page.all().sort(Sorter('name'))
     });
 });
 
-app.get("/recent", function(req) {
-    var limit = req.params.limit || 50;
+var getRecentChanges = function(limit) {
     var changes = [];
 
     // Retrieve all changes.
@@ -47,7 +45,26 @@ app.get("/recent", function(req) {
         }
         days[days.length - 1].changes.push(change);
     }
-    return app.render("recent.html", {days: days, title: "Recent Changes", headline: "Recent Changes"});
+    return days;
+}
+
+app.get("/recent", function(req) {
+    return app.render("recent.html", {days: getRecentChanges(req.params.limit || 50), title: "Recent Changes", headline: "Recent Changes"});
+});
+
+app.get("/recent/rss", function(req) {
+    var absoluteUrl = (req.scheme + "://" + req.host + (req.port != 80 ? ":" + req.port : ""));
+    return app.render(
+        "recent.rss",
+        {
+            days: getRecentChanges(req.params.limit || 50),
+            title: "Recent Changes",
+            headline: "Recent Changes",
+            absoluteUrl: absoluteUrl,
+            items: app.renderPart("items.rss", {days: getRecentChanges(req.params.limit || 50), absoluteUrl: absoluteUrl})
+        },
+        {master: "base.rss", contentType: "application/xml"}
+    );
 });
 
 app.get("/:name?", function(req, name) {
@@ -58,7 +75,6 @@ app.get("/:name?", function(req, name) {
         if (name.toLowerCase() == 'home') {
             skin = 'index.html';
             title = "Wiki";
-            headline = "Home";
         } else {
             skin = 'page.html';
             title = page.name + " - Wiki";

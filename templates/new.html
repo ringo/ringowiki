@@ -1,10 +1,12 @@
 <form method="POST">
-<div><input class="title" name="name" value="{{name}}"/></div>
-<div><textarea name="body" rows="30"></textarea></div>
-<div>Are you human? (yes/no) <input name="hm" size="4" value=""></div>
+    
+    <input class="title" name="name" value="{{name}}" />
+    <textarea id="body" name="body" rows="30" >{{body}}</textarea>
 
-<div><input name="save" value="Save" type="submit"/>
-    <a href="javascript:history.back()">cancel</a> |
-    <a href="http://www.kreatives-chaos.com/markdown_help.html">markdown help</a>
-</div>
+    <div class="humanCheck">Are you human? (yes/no) <input id="hm" name="hm" size="4" value="" required></div>
+
+    <div><input name="save" value="Save" type="submit"/>
+        <a href="javascript:history.back()">cancel</a> |
+        <a href="http://www.kreatives-chaos.com/markdown_help.html">markdown help</a>
+    </div>
 </form>

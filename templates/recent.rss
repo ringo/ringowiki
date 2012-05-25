@@ -1,0 +1,11 @@
+
+
+{{#days}}
+    {{#changes}}
+    <item rdf:about="{{absoluteUrl}}{{baseUrl name}}?version={{version}}">
+        <title>{{name}}</title>
+        <link>{{absoluteUrl}}{{baseUrl name}}?version={{version}}</link>
+    </item>
+    {{/changes}}
+{{/days}}
+

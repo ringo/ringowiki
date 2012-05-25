@@ -1,15 +1,18 @@
-<dl>
+<ol class="recent">
 
 {{#days}}
-<dt>{{title}}</dt>
+<li class="day"><h2>{{title}}</h2>
+    <ol>
     {{#changes}}
-    <dd>
+    <li class="change">
         <span class="time">{{timeFormat created}}</span>: 
         <a href="{{baseUrl name}}?version={{version}}"><span class="name">{{name}}</span></a>
-    </dd>
+    </li>
     {{/changes}}
+    </ol>
+</li>
 {{/days}}
 
-</dl>
+</ol>
 
-<p><a href="{{baseUrl}}">go home</a></p>
+<p><a href="{{baseUrl}}">go home</a> | <a href="{{baseUrl}}recent/rss">RSS</a></p>
