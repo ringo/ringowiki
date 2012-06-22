@@ -1,4 +1,4 @@
-var {Markdown} = require('ringo/markdown');
+var md = require('ringo/markdown');
 var {Page} = require('./model');
 var {app} = require('./actions');
 
@@ -35,7 +35,7 @@ function recentUrl() {
 }
 
 function markdown(content) {
-    var markdown = new Markdown({
+    return md.process(content, {
         lookupLink: function(id) {
             if (!strings.startsWith(id, "/") && !strings.isUrl(id.isUrl)) {
                 return [baseUrl(id),
@@ -51,7 +51,6 @@ function markdown(content) {
             buffer.append('>');
         }
     });
-    return markdown.process(content);
 }
 
 function navigation() {
