@@ -1,5 +1,7 @@
 var arrays = require('ringo/utils/arrays');
 var dates = require("ringo/utils/dates");
+var {markdown} = require('./helpers');
+var {markSafe} = require('reinhardt/utils');
 
 export('Page', 'Revision');
 
@@ -37,24 +39,17 @@ var Revision = store.defineEntity('Revision', {properties: {
 }});
 
 Revision.getRecent = function(limit) {
-    var changes = store.query('from Revision group by Revision.created, Revision.id \
+    return store.query('from Revision group by Revision.created, Revision.id \
                                                 order by Revision.created desc limit ' + limit);
-
-    // Group changes by day.
-    // @@ We probably should not manually do the grouping here, but rather use
-    // a nice grouping function in some library somewhere.
-    var days = [];
-    var oldDay;
-    for each (var change in changes) {
-        var curDay = dates.format(change.created, 'yyyy-MM-dd');
-        if (curDay != oldDay) {
-            days.push({title: curDay, changes: []});
-            oldDay = curDay;
-        }
-        days[days.length - 1].changes.push(change);
-    }
-    return days;
 }
+
+Object.defineProperties(Revision.prototype, {
+    version: {
+        get: function() {
+            return this.page.revisions.indexOf(this);
+        }
+    }
+});
 
 Page.byName = function(name, revision) {
     var slug = nameToSlug(name);
@@ -72,19 +67,20 @@ Page.allOrdered = function() {
 Object.defineProperties(Page.prototype, {
     "body": {
         get: function() {
-            return this.revisions.length > 0 && this.revisions.get(this.revision || 0).body || '';
+            return this.revisions && this.revisions.length > 0 && this.revisions.get(this.revision || 0).body || '';
         }
     },
     "name": {
         get: function() {
-            return this.revisions.length > 0 && this.revisions.get(this.revision || 0).name || '';
+            return this.revisions && this.revisions.length > 0 && this.revisions.get(this.revision || 0).name || '';
+        }
+    },
+    "htmlbody": {
+        get: function() {
+            return markSafe(markdown(this.body))
         }
     }
 });
-
-Page.prototype.getRevision = function(version) {
-    return this.revisions.get(version || 0) || new Revision();
-};
 
 Page.prototype.updateFrom = function(obj) {
     var slug = nameToSlug(obj.name);

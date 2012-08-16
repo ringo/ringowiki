@@ -1,18 +1,33 @@
-<ol class="recent">
+{% extends "base.html" %}
 
-{{#days}}
-<li class="day"><h2>{{title}}</h2>
-    <ol>
-    {{#changes}}
-    <li class="change">
-        <span class="time">{{timeFormat created}}</span>: 
-        <a href="{{baseUrl name}}?version={{version}}"><span class="name">{{name}}</span></a>
-    </li>
-    {{/changes}}
-    </ol>
-</li>
-{{/days}}
+ {% block head %}
+     <title>Recent Changes - Wiki</title>
+ {% endblock %}
 
-</ol>
+{% block content %}
 
-<p><a href="{{baseUrl}}">go home</a> | <a href="{{baseUrl}}recent/rss">RSS</a></p>
+<h1>Recent Changes</h1>
+
+   <ol class="recent">
+   <!-- ifchanged block produces broken html (closes </li></ol> before opening)
+             but I'm lazy and it works -->
+
+   {% for revision in revisions %}
+
+      {% ifchanged revision.created|date:"dd.MM.yyyy" %}
+      </li>
+         </ol>
+      <li class="day"><h2>{{revision.created|date:"dd.MM.yyyy"}}</h2>
+          <ol class="recent">
+      {% endifchanged %}
+         <li class="revision">
+           <span class="time">{{revision.created|date:"HH:mm"}}</span>
+           <a href="{{baseUrl}}{{revision.page.slug}}?version={{revision.version}}"><span class="name">{{revision.name}}</span></a>
+         </li>
+   {% endfor %}
+
+   </ol>
+
+   <p><a href="{{baseUrl}}">go home</a> | <a href="{{baseUrl}}recent/rss">RSS</a></p>
+
+{% endblock %}

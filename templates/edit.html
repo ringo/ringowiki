@@ -1,25 +1,33 @@
-{{#page}}
-<form method="POST" action="{{editUrl name}}">
+{% extends "base.html" %}
 
-<input class="title" name="name" value="{{name}}" />
+{% block head %}
+    <title>{{page.name}} - Wiki edit</title>
+{% endblock %}
 
-<textarea id="body" name="body" rows="30" >{{body}}</textarea>
+{% block content %}
+<form method="POST" action="{{baseUrl}}{{page.slug}}/edit">
+
+<input class="title" name="name" value="{{page.name}}" />
+
+<textarea id="body" name="body" rows="30" >{{page.body}}</textarea>
 
 <div class="humanCheck">Are you human? (yes/no) <input id="hm" name="hm" size="4" value="" required></div>
 
 <div style="width: 90%;">
     <input name="save" value="Save" type="submit"/>
-    <a href="{{baseUrl name}}">cancel</a> |
+    <a href="{{baseUrl}}{{page.slug}}">cancel</a> |
     <a href="http://www.kreatives-chaos.com/markdown_help.html">markdown help</a>
 
-    <p> Revision history:
-      <ul>
-    {{#changes}}
-        <li> <a href="?version={{version}}" rel="nofollow">{{created}}</a> </li>
-    {{/changes}}
-      </ul>
-    </p>
+    {% if revisions.length %}
+        <p> Revision history:
+          <ul>
+        {% for revision in revisions %}
+            <li> <a href="?version={{forloop.counter0}}" rel="nofollow">{{revision.created|date:"dd.mm.yyyy HH:mm"}}</a> </li>
+        {% endfor %}
+          </ul>
+        </p>
+    {% endif %}
 </div>
 
 </form>
-{{/page}}
+{% endblock %}

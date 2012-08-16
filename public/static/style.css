@@ -81,3 +81,9 @@ input.title {
 .pageText hr {
     margin: 2em 0;
 }
+
+.navigation {
+    float: right;
+    margin-top: 35px;
+    width: 150px;
+}

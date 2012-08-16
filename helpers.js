@@ -8,9 +8,6 @@ var mustache = require("ringo/mustache");
 
 export(
     'baseUrl',
-    'editUrl',
-    'listUrl',
-    'recentUrl',
     'markdown',
     'navigation',
     'timeFormat'
@@ -20,18 +17,6 @@ function baseUrl(name) {
     name = name && name.replace(/\s/g, '_');
     var url = (app.base || "") + "/";
     return name ? url + encodeURI(name) : url;
-}
-
-function editUrl(name) {
-    return baseUrl(name || "home") + "/edit";
-}
-
-function listUrl() {
-    return baseUrl() + "list";
-}
-
-function recentUrl() {
-    return baseUrl() + "recent";
 }
 
 function markdown(content) {
@@ -51,19 +36,6 @@ function markdown(content) {
             buffer.append('>');
         }
     });
-}
-
-function navigation() {
-    var page = Page.byName("navigation");
-    if (page) {
-        return mustache.to_html(
-            getResource('./templates/navigation.txt').getContent(), {
-                markdown: markdown,
-                content: page.getRevision().body
-            }
-        );
-    }
-    return '';
 }
 
 function timeFormat(date) {

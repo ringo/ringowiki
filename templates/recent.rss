@@ -1,11 +1,30 @@
+<?xml version="1.0"?>
 
+<rdf:RDF
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns="http://purl.org/rss/1.0/"
+>
 
-{{#days}}
-    {{#changes}}
-    <item rdf:about="{{absoluteUrl}}{{baseUrl name}}?version={{version}}">
-        <title>{{name}}</title>
-        <link>{{absoluteUrl}}{{baseUrl name}}?version={{version}}</link>
+    <channel rdf:about="{{absoluteUrl}}{{baseUrl}}">
+        <title>Recent changes</title>
+        <link>{{absoluteUrl}}{{baseUrl}}</link>
+        <description>Recent Changes for RingoWiki.</description>
+
+       <items>
+          <rdf:Seq>
+          {% for revision in revisions %}
+              <rdf:li resource="{{absoluteUrl}}{{baseUrl}}{{revision.page.slug}}?version={{revision.version}}" />
+          {% endfor %}
+          </rdf:Seq>
+      </items>
+
+    </channel>
+
+{% for revision in revisions %}
+    <item rdf:about="{{absoluteUrl}}{{baseUrl}}{{revision.page.slug}}">
+        <title>{{revision.name}}</title>
+        <link>{{absoluteUrl}}{{baseUrl}}{{revision.page.slug}}?version={{revision.version}}</link>
     </item>
-    {{/changes}}
-{{/days}}
+{% endfor %}
 
+</rdf:RDF>

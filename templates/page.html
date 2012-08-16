@@ -1,11 +1,24 @@
-{{#page}}
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{page.name|capfirst}}</h1>
+
 <div class="pageText">
-    {{{markdown body}}}
+    {{page.htmlbody}}
 </div>
 
 <p>
-    <a href="{{editUrl name}}" rel="nofollow">edit this page</a> |
-    <a href="{{listUrl}}">list all pages</a> |
-    <a href="{{baseUrl}}">go home</a>
+    <a href="{{baseUrl}}{{page.slug}}/edit" rel="nofollow">edit this page</a> |
+    <a href="{{baseUrl}}list">list all pages</a> |
+    {% if page.slug == "home" %}
+      <a href="{{baseUrl}}recent">recent changes</a>
+    {% else %}
+      <a href="{{baseUrl}}">go home</a>
+    {% endif %}
 </p>
-{{/page}}
+{% endblock %}
+
+
+{% block navigation %}
+   {{navigationPage.htmlbody}}
+{% endblock %}

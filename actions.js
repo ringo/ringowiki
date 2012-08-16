@@ -1,78 +1,69 @@
 var {Sorter} = require('ringo/utils/strings');
 var response = require('ringo/jsgi/response');
-var {Page, Revision} = require('./model');
 var {Application} = require("stick");
+var {renderResponse, registerLoader} = require('reinhardt');
+var FsLoader = require('reinhardt/loaders/filesystem').Loader;
+
+registerLoader(new FsLoader(module.resolve('./templates/')));
 
 var app = exports.app = Application();
-app.configure("params", "render", "route");
-app.render.base = module.resolve("templates");
-app.render.master = "base.html";
-app.render.helpers = require("./helpers");
+app.configure("params", "route");
+
+// require helpers and model *after* app is configured
+var {Page, Revision} = require('./model');
+var helpers = require('./helpers');
 
 app.get("/list", function(req) {
-    return app.render('list.html', {
-        pages: Page.allOrdered()
+    return renderResponse('list.html', {
+        pages: Page.allOrdered(),
+        baseUrl: helpers.baseUrl
     });
 });
 
 app.get("/recent", function(req) {
-    return app.render("recent.html", {days: Revision.getRecent(req.params.limit || 50), title: "Recent Changes", headline: "Recent Changes"});
+    return renderResponse('recent.html', {
+        revisions: Revision.getRecent(req.params.limit || 50),
+        baseUrl: helpers.baseUrl
+    });
 });
 
 app.get("/recent/rss", function(req) {
     var absoluteUrl = (req.scheme + "://" + req.host + (req.port != 80 ? ":" + req.port : ""));
-    return app.render(
-        "recent.rss",
-        {
-            days: Revision.getRecent(req.params.limit || 50),
-            title: "Recent Changes",
-            headline: "Recent Changes",
-            absoluteUrl: absoluteUrl,
-            items: app.renderPart("items.rss", {days: Revision.getRecent(req.params.limit || 50), absoluteUrl: absoluteUrl})
-        },
-        {master: "base.rss", contentType: "application/xml"}
-    );
+    return renderResponse("recent.rss",{
+        revisions: Revision.getRecent(req.params.limit || 50),
+        absoluteUrl: absoluteUrl,
+        baseUrl: helpers.baseUrl
+    });
 });
 
 app.get("/:name?", function(req, name) {
     name = name || 'home';
     var page = Page.byName(name);
     if (page) {
-        var skin, title, headline;
-        if (name.toLowerCase() == 'home') {
-            skin = 'index.html';
-            title = "Wiki";
-        } else {
-            skin = 'page.html';
-            title = page.name + " - Wiki";
-            headline = page.name;
-        }
-        var version = req.params.version;
-        return app.render(skin, {
+        return renderResponse('page.html', {
             page: page,
-            title: title,
-            headline: headline,
-            version: version,
-            basePath: req.scriptName
+            navigationPage: Page.byName('navigation'),
+            baseUrl: helpers.baseUrl
         });
     } else {
-        return app.render('new.html', {
-            name: name.replace(/_/g, ' ')
+        return renderResponse('edit.html', {
+            page: {
+                name: name,
+                slug: name.replace(/_/g, ' '),
+                body: ''
+            },
+            baseUrl: helpers.baseUrl
         });
     }
 });
 
 app.get("/:name/edit", function(req, name) {
     var page = Page.byName(name, req.params.version);
-    var idx = 0;
-    return app.render('edit.html', {
-        title: "Edit " + page.name,
+    // FIXME why can't I access page.revisions in template??
+    return renderResponse('edit.html', {
         page: page,
-        changes: page.revisions.all,
-        // thank mustache for hiding the loop index
-        version: function() {
-            return idx++;
-        },
+        revisions: page.revisions.all,
+        baseUrl: helpers.baseUrl
     });
 });
 

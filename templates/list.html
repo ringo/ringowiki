@@ -1,10 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
 <h1>All Pages</h1>
 
 <ul class="allPages">
-{{#pages}}
-    <li><a href="{{baseUrl name}}">{{name}}</a></li>
-{{/pages}}
+{% for page in pages %}
+    <li><a href="{{baseUrl}}{{page.slug}}">{{page.name}}</a></li>
+{% endfor %}
 </ul>
 
 <p><a href="{{baseUrl}}">go home</a></p>
 
+{% endblock %}

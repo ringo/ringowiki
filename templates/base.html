@@ -2,7 +2,9 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8" />
-    <title>{{title}}</title>
+    {% block head %}
+        <title>{{page.name}} - Wiki</title>
+    {% endblock %}
     <link rel="stylesheet" href="{{baseUrl}}static/normalize.css" />
     <link rel="stylesheet" href="{{baseUrl}}static/style.css" />
     <link rel="stylesheet" href="{{baseUrl}}static/sh_hns.min.css" />
@@ -12,20 +14,18 @@
     <script src="{{baseUrl}}static/sh_javascript.min.js"></script>
     <script src="{{baseUrl}}static/main.js"></script>
 
-    {{{head}}}
+    {% block headextend %}
+    {% endblock %}
 </head>
 
 <body>
-
     <div class="wrapper">
-
-        {{#headline}}
-        <h1>{{headline}}</h1>
-        {{/headline}}
-        
-        {{{content}}}
-
+        <div class="navigation">
+            {% block navigation %}
+            {% endblock %}
+        </div>
+        {% block content %}
+        {% endblock %}
     </div>
-
 </body>
 </html>
