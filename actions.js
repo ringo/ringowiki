@@ -62,16 +62,6 @@ app.get("/:name?", function(req, name) {
     }
 });
 
-app.post("/:name?", function(req, name) {
-    if (req.params.hm != "yes") {
-        return response.html("Sorry, this wiki is humans only.");
-    }
-    name = name || 'home';
-    var page = new Page();
-    page.updateFrom(req.params);
-    return response.redirect(req.scriptName + "/" + encodeURIComponent(name));
-});
-
 app.get("/:name/edit", function(req, name) {
     var page = Page.byName(name, req.params.version);
     var idx = 0;
@@ -86,15 +76,18 @@ app.get("/:name/edit", function(req, name) {
     });
 });
 
-app.post("/:name/edit", function(req, name) {
+function updateOrCreate (req, name) {
     if (req.params.hm != "yes") {
         return response.html("Sorry, this wiki is humans only.");
     }
-    var page = Page.byName(name);
+    var page = Page.byName(name) || new Page();
     page.updateFrom(req.params);
     page.save();
     return response.redirect(req.scriptName + "/" + encodeURIComponent(page.name));
-});
+}
+
+app.post("/:name?", updateOrCreate);
+app.post("/:name/edit", updateOrCreate);
 
 
 
