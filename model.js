@@ -1,75 +1,104 @@
 var arrays = require('ringo/utils/arrays');
+var dates = require("ringo/utils/dates");
 
-export('Page', 'PageIndex');
+export('Page', 'Revision');
 
-var {Store} = require('ringo-filestore');
-var store = exports.store = new Store('/var/lib/ringojs/db');
+var {Store} = require('ringo-sqlstore');
 
-// PageIndex is a singleton object that maps page names to page ids
-var PageIndex = store.defineEntity('PageIndex', {properties: {
-            map: "object"
-        }});
+var store = exports.store = new Store({
+    "url":"jdbc:h2:file:" + module.resolve('./db/wiki'),
+    "driver": "org.h2.Driver"
+});
+
 var Page = store.defineEntity('Page', {properties: {
-            name: "string",
-            revisions: "array"
-        }});
+    slug: {
+       type: "text"
+    },
+    revisions: {
+        type: "collection",
+        query: "from Revision where Revision.page = :id order by Revision.id desc"
+    }
+}});
 
-// create PageIndex singleton
-var index = PageIndex.all()[0];
-if (!index) {
-    index = new PageIndex();
-    index.map = {};
-    index.save();
-} else if (!index.map) {
-    index.map = {};
+var Revision = store.defineEntity('Revision', {properties: {
+    body: {
+        type: "text"
+    },
+    name: {
+        type: "text"
+    },
+    created: {
+        type: "timestamp"
+    },
+    page: {
+        type: "object",
+        entity: "Page"
+    }
+}});
+
+Revision.getRecent = function(limit) {
+    var changes = store.query('from Revision group by Revision.created, Revision.id \
+                                                order by Revision.created desc limit ' + limit);
+
+    // Group changes by day.
+    // @@ We probably should not manually do the grouping here, but rather use
+    // a nice grouping function in some library somewhere.
+    var days = [];
+    var oldDay;
+    for each (var change in changes) {
+        var curDay = dates.format(change.created, 'yyyy-MM-dd');
+        if (curDay != oldDay) {
+            days.push({title: curDay, changes: []});
+            oldDay = curDay;
+        }
+        days[days.length - 1].changes.push(change);
+    }
+    return days;
 }
 
-PageIndex.prototype.updatePage = sync(function(oldName, newName, id) {
-    if (oldName) {
-        delete this.map[escapeName(oldName)];
+Page.byName = function(name, revision) {
+    var slug = nameToSlug(name);
+    var page = store.query('from Page where Page.slug = :slug limit 1', {slug: slug})[0];
+    if (page) {
+        page.revision = revision;
+        return page;
     }
-    if (newName && id != null) {
-        this.map[escapeName(newName)] = id;
-    }
-    this.save();
-}, store);
+    return null;
+};
+Page.allOrdered = function() {
+    return store.query('from Page order by Page.slug asc');
+}
 
-Page.byName = function(name) {
-    name = escapeName(name);
-    var pageId = index.map[name];
-    var page = pageId != null && Page.get(pageId);
-    if (!page) {
-        var pages = Page.all().filter(function(page) {
-            return name == page.name.toLowerCase().replace(/\s/g, '_');
-        });
-        page = pages[0];
-        if (page) {
-            index.updatePage(null, page.name, page._id);
+Object.defineProperties(Page.prototype, {
+    "body": {
+        get: function() {
+            return this.revisions.length > 0 && this.revisions.get(this.revision || 0).body || '';
+        }
+    },
+    "name": {
+        get: function() {
+            return this.revisions.length > 0 && this.revisions.get(this.revision || 0).name || '';
         }
     }
-    return page;
-};
-
-Page.prototype.addRevision = function(body, created) {
-    if (typeof this.revisions === 'undefined') {
-        this.revisions = [];
-    }
-    this.revisions.push({body: body, created: created});
-};
+});
 
 Page.prototype.getRevision = function(version) {
-    var rev = version ? this.revisions[version] : arrays.peek(this.revisions);
-    return rev ? rev : {body: '', created: new Date()};
+    return this.revisions.get(version || 0) || new Revision();
 };
 
 Page.prototype.updateFrom = function(obj) {
-    if (this.name != obj.name) {
-        index.updatePage(this.name, obj.name, this._id);
-        this.name = obj.name;
-    }
-    this.addRevision(obj.body, new Date());
+    var slug = nameToSlug(obj.name);
+    if (this.slug != slug) {
+        this.slug = slug;
+        this.save();
+    };
+    obj.created = new Date();
+    obj.page = this;
+    var rev = new Revision(obj);
+    rev.save();
+    this.revisions.add(rev);
 };
 
-function escapeName(name) {
+function nameToSlug(name) {
     return name ? name.toLowerCase().replace(/\s/g, '_') : null;
 }
