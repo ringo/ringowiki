@@ -62,7 +62,6 @@ app.get("/:name/edit", function(req, name) {
     // FIXME why can't I access page.revisions in template??
     return renderResponse('edit.html', {
         page: page,
-        revisions: page.revisions.all,
         baseUrl: helpers.baseUrl
     });
 });
@@ -79,6 +78,4 @@ function updateOrCreate (req, name) {
 
 app.post("/:name?", updateOrCreate);
 app.post("/:name/edit", updateOrCreate);
-
-
 

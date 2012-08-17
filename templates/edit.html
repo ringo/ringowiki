@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+
 <form method="POST" action="{{baseUrl}}{{page.slug}}/edit">
 
 <input class="title" name="name" value="{{page.name}}" />
@@ -18,10 +19,10 @@
     <a href="{{baseUrl}}{{page.slug}}">cancel</a> |
     <a href="http://www.kreatives-chaos.com/markdown_help.html">markdown help</a>
 
-    {% if revisions.length %}
+    {% if page.revisions.length %}
         <p> Revision history:
           <ul>
-        {% for revision in revisions %}
+        {% for revision in page.revisions.all %}
             <li> <a href="?version={{forloop.counter0}}" rel="nofollow">{{revision.created|date:"dd.mm.yyyy HH:mm"}}</a> </li>
         {% endfor %}
           </ul>
