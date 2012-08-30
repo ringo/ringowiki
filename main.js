@@ -6,5 +6,5 @@ app.static(module.resolve("public"));
 
 // main script to start application
 if (require.main == module) {
-    require('ringo/httpserver').main(module.directory);
+    require('ringo/httpserver').main(module.id);
 }
