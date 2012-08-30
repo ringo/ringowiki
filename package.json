@@ -1,0 +1,16 @@
+{
+    "name": "ringowiki",
+    "version": "0.1",
+    "description": "This is a minimal wiki demo app for RingoJS.",
+    "keywords": ["wiki", "cms"],
+    "homepage": "https://github.com/ringo/ringowiki",
+    "dependencies": {
+        "ringo-storable": "0.1.0",
+        "ringo-sqlstore": "0.2",
+        "reinhardt": "0.1"
+    },
+    "engines": {
+        "ringojs": ">= 0.8"
+    },
+    "main": "./main.js"
+}

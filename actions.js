@@ -2,9 +2,12 @@ var {Sorter} = require('ringo/utils/strings');
 var response = require('ringo/jsgi/response');
 var {Application} = require("stick");
 var {renderResponse, registerLoader} = require('reinhardt');
-var FsLoader = require('reinhardt/loaders/filesystem').Loader;
+var {config} = require('./main');
 
-registerLoader(new FsLoader(module.resolve('./templates/')));
+var FsLoader = require('reinhardt/loaders/filesystem').Loader;
+config.templates.forEach(function(templatePath) {
+    registerLoader(new FsLoader(templatePath));
+});
 
 var app = exports.app = Application();
 app.configure("params", "route");

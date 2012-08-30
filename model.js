@@ -2,13 +2,14 @@ var arrays = require('ringo/utils/arrays');
 var dates = require("ringo/utils/dates");
 var {markdown} = require('./helpers');
 var {markSafe} = require('reinhardt/utils');
+var {config} = require('./main');
 
 export('Page', 'Revision');
 
 var {Store} = require('ringo-sqlstore');
 
 var store = exports.store = new Store({
-    "url":"jdbc:h2:file:" + module.resolve('./db/wiki'),
+    "url":"jdbc:h2:file:" + config.db + 'wiki',
     "driver": "org.h2.Driver"
 });
 
