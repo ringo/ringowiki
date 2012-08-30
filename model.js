@@ -93,7 +93,7 @@ Page.prototype.updateFrom = function(obj) {
     obj.page = this;
     var rev = new Revision(obj);
     rev.save();
-    this.revisions.add(rev);
+    this.revisions.invalidate();
 };
 
 function nameToSlug(name) {
